@@ -1,0 +1,37 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: grpc-client-springcloud-with-consul
+  cloud:
+    consul:
+      host: 172.24.107.63
+      port: 8500
+      discovery:
+        registry: true
+        # 过Consul健康检查特殊配置
+        prefer-ip-address: true
+        service-name: ${spring.application.name}
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}
+        health-check-url: http://${spring.cloud.client.ip-address}:${server.port}/actuator/health
+        health-check-interval: 5s
+
+grpc:
+  client:
+    # GRPC 服务名。与consul注册中心务必保持一致
+    golang_grpc_server:
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+    # GRPC 服务名。与consul注册中心务必保持一致
+    grpc-server-springcloud-with-consul:
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

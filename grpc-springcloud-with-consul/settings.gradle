@@ -1,0 +1,5 @@
+rootProject.name = 'grpc-springcloud-with-consul'
+
+include "grpc-lib"
+include "grpc-server-springcloud-with-consul"
+include "grpc-client-springcloud-with-consul"

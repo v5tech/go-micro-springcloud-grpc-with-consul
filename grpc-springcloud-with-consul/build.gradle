@@ -1,0 +1,62 @@
+buildscript {
+    repositories {
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+    ext {
+        grpcVersion = '1.36.0'
+        protobufVersion = '3.15.0'
+        protobufGradlePluginVersion = '0.8.15'
+        springBootVersion = '2.3.8.RELEASE'
+        springCloudVersion = 'Hoxton.SR9'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'org.springframework.boot' version "${springBootVersion}" apply false
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.google.protobuf' version "${protobufGradlePluginVersion}"
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'io.spring.dependency-management'
+
+    compileJava {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        options.encoding = 'UTF-8'
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    buildscript {
+        repositories {
+            maven { url 'https://plugins.gradle.org/m2/' }
+        }
+    }
+}
+
+group = 'com.anchnet.grpc'
+version = '1.0'
+sourceCompatibility = '1.8'
+
+allprojects { project ->
+    buildscript {
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+                mavenBom "com.google.protobuf:protobuf-bom:${protobufVersion}"
+                mavenBom "io.grpc:grpc-bom:${grpcVersion}"
+            }
+        }
+    }
+}

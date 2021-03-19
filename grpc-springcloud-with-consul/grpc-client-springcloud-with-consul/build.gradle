@@ -1,0 +1,12 @@
+plugins {
+	id 'org.springframework.boot'
+}
+
+dependencies {
+	implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// 	GRPC依赖
+	implementation project(':grpc-lib')
+	implementation 'net.devh:grpc-client-spring-boot-starter:2.11.0.RELEASE'
+}

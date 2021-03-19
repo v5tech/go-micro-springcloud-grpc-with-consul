@@ -1,0 +1,29 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: grpc-server-springcloud-with-consul
+  cloud:
+    consul:
+      host: 172.24.107.63
+      port: 8500
+      discovery:
+        registry: true
+        port: ${grpc.server.port}
+        # 过Consul健康检查特殊配置
+        prefer-ip-address: true
+        service-name: ${spring.application.name}
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}
+        health-check-url: http://${spring.cloud.client.ip-address}:${server.port}/actuator/health
+        health-check-interval: 5s
+
+grpc:
+  server:
+    port: 9898
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
